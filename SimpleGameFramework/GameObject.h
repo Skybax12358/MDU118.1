@@ -9,9 +9,7 @@
 
 enum GameObjectType {
 	egotBase,
-
-	egotLoot,
-	// all new game object types go here
+	
 
 	egotRangedEnemy,
 

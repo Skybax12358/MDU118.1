@@ -35,17 +35,17 @@ void GameManager::BeginPlay()
 									GameFrameworkInstance.RandomIntBetween(100, 500));
 
 	// Add it to my list of enemies
-	enemies.push_back(objectPtr1);
+	Everything.push_back(objectPtr1);
 
 	{
 		std::ofstream binaryLevel("level.bin");
 
 		// write out the number of enemies
-		size_t numEnemies = enemies.size();
+		size_t numEnemies = Everything.size();
 		binaryLevel.write(reinterpret_cast<const char*>(&numEnemies), sizeof(numEnemies));
 
 		// save all of the enemies
-		for (GameObject* objectPtr : enemies)
+		for (GameObject* objectPtr : Everything)
 		{
 			objectPtr->WriteToBinary(binaryLevel);
 		}
@@ -57,10 +57,10 @@ void GameManager::BeginPlay()
 		std::ofstream csvLevel("level.csv");
 
 		// write out the number of enemies
-		csvLevel << enemies.size() << std::endl;
+		csvLevel << Everything.size() << std::endl;
 
 		// save all of the enemies
-		for (GameObject* objectPtr : enemies)
+		for (GameObject* objectPtr : Everything)
 		{
 			objectPtr->WriteToCSV(csvLevel);
 		}
@@ -69,7 +69,7 @@ void GameManager::BeginPlay()
 	}
 
 	// free up all of the game objects
-	for (GameObject* objectPtr : enemies)
+	for (GameObject* objectPtr : Everything)
 	{
 		delete objectPtr;
 	}
@@ -77,13 +77,13 @@ void GameManager::BeginPlay()
 	{
 		std::ifstream binaryLevel("level.bin");
 
-		enemies = GameObject::ReadObjectsFromBinary(binaryLevel);
+		Everything = GameObject::ReadObjectsFromBinary(binaryLevel);
 
 		binaryLevel.close();
 	}
 
 	// free up all of the game objects
-	for (GameObject* objectPtr : enemies)
+	for (GameObject* objectPtr : Everything)
 	{
 		delete objectPtr;
 	}
@@ -91,7 +91,7 @@ void GameManager::BeginPlay()
 	{
 		std::ifstream csvLevel("level.csv");
 
-		enemies = GameObject::ReadObjectsFromCSV(csvLevel);
+		Everything = GameObject::ReadObjectsFromCSV(csvLevel);
 
 		csvLevel.close();
 	}
@@ -100,7 +100,7 @@ void GameManager::BeginPlay()
 void GameManager::EndPlay()
 {
 	// free up all of the game objects
-	for (GameObject* objectPtr : enemies)
+	for (GameObject* objectPtr : Everything)
 	{
 		delete objectPtr;
 	}
@@ -117,31 +117,8 @@ void GameManager::Render(Gdiplus::Graphics& canvas, const CRect& clientRect)
 	Gdiplus::Matrix transform;
 	canvas.GetTransform(&transform);
 
-	/*
-	canvas.ScaleTransform(0.5f, 0.5f);
-	canvas.RotateTransform(30.0f);
-	canvas.TranslateTransform(200.0f, 200.0f);
-	
-	// Render method demonstration (You can remove all of this code)
-	GameFrameworkInstance.DrawLine(canvas, Vector2i(200, 200), Vector2i(400, 200), Gdiplus::Color::White);
-
-	GameFrameworkInstance.DrawRectangle(canvas, AABBi(Vector2i(10, 110), Vector2i(100, 200)), false, Gdiplus::Color::White);
-	GameFrameworkInstance.DrawRectangle(canvas, AABBi(Vector2i(200, 110), Vector2i(300, 200)), true, Gdiplus::Color::White);
-
-	canvas.SetTransform(&transform);
-
-	GameFrameworkInstance.DrawCircle(canvas, Vector2i(200, 200), 50, false, Gdiplus::Color::White);
-	GameFrameworkInstance.DrawCircle(canvas, Vector2i(400, 200), 50, true, Gdiplus::Color::White);
-
-	GameFrameworkInstance.DrawText(canvas, Vector2i(10, 300), 12, "Arial", "Hello World!", Gdiplus::Color::White);
-
-	// Load the image file Untitled.png from the Images folder. Give it the unique name of Image1
-	ImageWrapper* image1 = GameFrameworkInstance.GetLoadedImage(Image1);
-	GameFrameworkInstance.DrawImage(canvas, Vector2i(400, 400), image1);
-	*/
-
 	// tell all of the game objects to render
-	for (GameObject* gameObjectPtr : enemies)
+	for (GameObject* gameObjectPtr : Everything)
 	{
 		gameObjectPtr->Render(canvas, clientRect);
 	}
@@ -149,11 +126,3 @@ void GameManager::Render(Gdiplus::Graphics& canvas, const CRect& clientRect)
 	// Restore the transformation of the scene
 	canvas.SetTransform(&transform);
 }
-
-
-
-/*
-1. Only make changes in GameManager.cpp
-2. You can't delete more than 5 lines the code.
-3. You only get 2 minutes to break the code.
-*/

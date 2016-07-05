@@ -34,7 +34,7 @@ private:
 	~GameManager();
 
 private:
-	GameObjects enemies;
+	GameObjects Everything;
 };
 
 /**
