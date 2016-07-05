@@ -28,6 +28,7 @@ public:
 	 * @param clientRect	  The rectangle representing the drawable area.
 	 */
 	void Render(Gdiplus::Graphics& canvas, const CRect& clientRect);
+	void OnSpaceDown();
 
 private:
 	GameManager();
@@ -35,6 +36,9 @@ private:
 
 private:
 	GameObjects Everything;
+
+public:
+	int CurrentState = 0;
 };
 
 /**

@@ -81,6 +81,7 @@ void GameInput::OnKeyDown(UINT keyCode, UINT repeatCount)
 	case VK_CONTROL:
 		break;
 	case VK_SPACE:
+		GameManagerInstance.OnSpaceDown();
 		break;
 	case VK_SHIFT:
 		break;

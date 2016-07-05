@@ -126,3 +126,14 @@ void GameManager::Render(Gdiplus::Graphics& canvas, const CRect& clientRect)
 	// Restore the transformation of the scene
 	canvas.SetTransform(&transform);
 }
+
+void GameManager::OnSpaceDown()
+{
+	// free up all of the game objects
+	for (GameObject* objectPtr : Everything)
+	{
+  		
+	}
+
+	CurrentState++;
+}
