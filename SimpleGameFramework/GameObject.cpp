@@ -27,7 +27,7 @@ void GameObject::Render(Gdiplus::Graphics& canvas, const CRect& clientRect)
 	canvas.TranslateTransform((float)location.X, (float)location.Y);
 
 	///// ALL OF THE RENDERING CODE GOES HERE
-	GameFrameworkInstance.DrawRectangle(canvas, AABBi(Vector2i(-5, -5), Vector2i(5, 5)), true, Gdiplus::Color::Bisque);
+	GameFrameworkInstance.DrawRectangle(canvas, AABBi(Vector2i(-5, -5), Vector2i(5, 5)), true, Gdiplus::Color::Blue);
 
 	// Restore the transformation of the scene
 	canvas.SetTransform(&transform);
@@ -36,12 +36,12 @@ void GameObject::Render(Gdiplus::Graphics& canvas, const CRect& clientRect)
 void GameObject::WriteToCSV(std::ofstream& os)
 {
 	// save out the common game object information
-	os << type << "," 
-	   << location.X << "," 
-	   << location.Y << "," 
-	   << name << ","
-	   << children.size() 
-	   << std::endl;
+	os << type << ","
+		<< location.X << ","
+		<< location.Y << ","
+		<< name << ","
+		<< children.size()
+		<< std::endl;
 
 	// save all of the children
 	for (GameObject* objectPtr : children)
@@ -75,7 +75,7 @@ GameObjects GameObject::ReadObjectsFromCSV(std::ifstream& is)
 	// read in the number of children
 	size_t numChildren;
 	is >> numChildren;
-	
+
 	// iterate up to that number
 	for (size_t currentObject = 0; currentObject < numChildren; ++currentObject)
 	{
@@ -93,7 +93,7 @@ GameObjects GameObject::ReadObjectsFromCSV(std::ifstream& is)
 			break;
 
 		}
-		
+
 		// tell the game object to load it's own damn data
 		objectPtr->ReadFromCSV(is);
 
@@ -187,8 +187,8 @@ GameObjects GameObject::ReadObjectsFromBinary(std::ifstream& is)
 
 		// add the object to my list
 		objects.push_back(objectPtr);
+
 	}
-
 	return objects;
-}
 
+}

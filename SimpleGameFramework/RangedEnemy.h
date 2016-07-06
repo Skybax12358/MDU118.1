@@ -15,7 +15,7 @@ public:
 
 	//basic integers
 public:
-	int startingHealth = 20;
+	int startingHealth = 20; 
 	int maxHealth = 50;
 	int attackRange = 250;
 	int attackDamage = 10;

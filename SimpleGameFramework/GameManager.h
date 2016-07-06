@@ -2,6 +2,8 @@
 
 #include "GameFramework.h"
 #include "GameObject.h"
+#include "Vector.h"
+#include <iostream>
 
 class GameManager
 {

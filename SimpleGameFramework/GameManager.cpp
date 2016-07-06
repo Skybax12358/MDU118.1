@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "GameManager.h"
+#include "GameObject.h"
+
 
 GameManager& GameManager::Instance()
 {
@@ -33,9 +35,13 @@ void GameManager::BeginPlay()
 	GameObject* objectPtr1 = new GameObject();
 	objectPtr1->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
 									GameFrameworkInstance.RandomIntBetween(100, 500));
+	GameObject* objectPtr2 = new GameObject();
+	objectPtr2->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
+									GameFrameworkInstance.RandomIntBetween(100, 500));
 
 	// Add it to my list of enemies
 	Everything.push_back(objectPtr1);
+	Everything.push_back(objectPtr2);
 
 	{
 		std::ofstream binaryLevel("level.bin");
@@ -117,11 +123,17 @@ void GameManager::Render(Gdiplus::Graphics& canvas, const CRect& clientRect)
 	Gdiplus::Matrix transform;
 	canvas.GetTransform(&transform);
 
+
 	// tell all of the game objects to render
 	for (GameObject* gameObjectPtr : Everything)
 	{
 		gameObjectPtr->Render(canvas, clientRect);
+		gameObjectPtr->Render(canvas, clientRect);
+		gameObjectPtr->Render(canvas, clientRect);
+		gameObjectPtr->Render(canvas, clientRect);
 	}
+
+
 
 	// Restore the transformation of the scene
 	canvas.SetTransform(&transform);
@@ -129,11 +141,17 @@ void GameManager::Render(Gdiplus::Graphics& canvas, const CRect& clientRect)
 
 void GameManager::OnSpaceDown()
 {
+	CurrentState++;
+
 	// free up all of the game objects
 	for (GameObject* objectPtr : Everything)
 	{
-  		
+		objectPtr->WriteToBinary(binaryLevel);
+		delete objectPtr;
 	}
 
-	CurrentState++;
+	if (CurrentState >= 4)
+		CurrentState = 0;
+
+
 }
