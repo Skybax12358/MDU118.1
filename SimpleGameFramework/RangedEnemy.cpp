@@ -37,8 +37,9 @@ void RangedEnemy::WriteToCSV(std::ofstream& os)
 	os << attackDamage << ","
 		<< attackRange << ","
 		<< startingHealth << ","
-		<< maxHealth << ","
+		<< maxHealth 
 		<< std::endl;
+
 }
 
 void RangedEnemy::WriteToBinary(std::ofstream& os)
@@ -69,13 +70,19 @@ void RangedEnemy::ReadFromBinary(std::ifstream& is)
 
 void RangedEnemy::ReadFromCSV(std::ifstream& is)
 {
+	char dummyVar;
 	// load the base data first
 	GameObject::ReadFromCSV(is);
 
 	// load our own data here
-	is >> attackDamage
+	is >> dummyVar
+		>> attackDamage
+		>> dummyVar
 		>> attackRange
+		>> dummyVar
 		>> maxHealth
-		>> startingHealth;
+		>> dummyVar
+		>> startingHealth
+		>> dummyVar;
 }
 

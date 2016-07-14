@@ -37,36 +37,7 @@ void GameManager::EndPlay()
 
 void GameManager::Update(double deltaTime)
 {
-	if (CurrentState == 2)
-	{
-		{
-
-			GameObject* objectPtr1 = new GameObject();
-			objectPtr1->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
-				GameFrameworkInstance.RandomIntBetween(100, 500));
-			GameObject* objectPtr2 = new GameObject();
-			objectPtr2->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
-				GameFrameworkInstance.RandomIntBetween(100, 500));
-			GameObject* objectPtr3 = new RangedEnemy();
-			objectPtr3->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
-				GameFrameworkInstance.RandomIntBetween(100, 500));
-			GameObject* objectPtr4 = new RangedEnemy();
-			objectPtr4->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
-				GameFrameworkInstance.RandomIntBetween(100, 500));
-
-			// Add it to my list of enemies
-			Everything.push_back(objectPtr1);
-			Everything.push_back(objectPtr2);
-			Everything.push_back(objectPtr3);
-			Everything.push_back(objectPtr4);
-
-			std::ifstream csvLevel("level.bin");
-
-			std::ifstream binaryLevel("level.bin");
-
-			Everything = GameObject::ReadObjectsFromBinary(binaryLevel);
-		}
-	}
+	
 }
 
 void GameManager::Render(Gdiplus::Graphics& canvas, const CRect& clientRect)
@@ -94,7 +65,6 @@ void GameManager::Render(Gdiplus::Graphics& canvas, const CRect& clientRect)
 void GameManager::OnSpaceDown()
 {
 	CurrentState++;
-	std::cout << CurrentState << endl;
 
 	// free up all of the game objects
 	for (GameObject* objectPtr : Everything)
@@ -163,9 +133,9 @@ void GameManager::OnSpaceDown()
 			for (GameObject* objectPtr : Everything)
 			{
 				objectPtr->WriteToCSV(csvLevel);
-				objectPtr2->WriteToBinary(csvLevel);
-				objectPtr3->WriteToBinary(csvLevel);
-				objectPtr4->WriteToBinary(csvLevel);
+				objectPtr2->WriteToCSV(csvLevel);
+				objectPtr3->WriteToCSV(csvLevel);
+				objectPtr4->WriteToCSV(csvLevel);
 			}
 
 			csvLevel.close();
@@ -173,7 +143,36 @@ void GameManager::OnSpaceDown()
 
 	}
 
-	
+	if (CurrentState == 2)
+	{
+		{
+
+			GameObject* objectPtr1 = new GameObject();
+			objectPtr1->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
+				GameFrameworkInstance.RandomIntBetween(100, 500));
+			GameObject* objectPtr2 = new GameObject();
+			objectPtr2->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
+				GameFrameworkInstance.RandomIntBetween(100, 500));
+			GameObject* objectPtr3 = new RangedEnemy();
+			objectPtr3->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
+				GameFrameworkInstance.RandomIntBetween(100, 500));
+			GameObject* objectPtr4 = new RangedEnemy();
+			objectPtr4->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
+				GameFrameworkInstance.RandomIntBetween(100, 500));
+
+			// Add it to my list of enemies
+			Everything.push_back(objectPtr1);
+			Everything.push_back(objectPtr2);
+			Everything.push_back(objectPtr3);
+			Everything.push_back(objectPtr4);
+
+			std::ifstream csvLevel("level.bin");
+
+			std::ifstream binaryLevel("level.bin");
+
+			Everything = GameObject::ReadObjectsFromBinary(binaryLevel);
+		}
+	}
 
 	if (CurrentState == 3)
 	{
