@@ -10,7 +10,6 @@
 enum GameObjectType {
 	egotBase,
 	
-
 	egotRangedEnemy,
 
 	egotNumGameObjectTypes
@@ -18,6 +17,7 @@ enum GameObjectType {
 
 class GameObject; // forward declare GameObject
 typedef std::list<GameObject*> GameObjects;
+typedef GameObjects::iterator GameObjectIt;
 
 class GameObject
 {

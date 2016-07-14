@@ -146,6 +146,30 @@ void GameManager::OnSpaceDown()
 	if (CurrentState == 2)
 	{
 		{
+			// Create a new game object and give it a random location
+			GameObject* objectPtr1 = new GameObject();
+			objectPtr1->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
+				GameFrameworkInstance.RandomIntBetween(100, 500));
+			GameObject* objectPtr2 = new GameObject();
+			objectPtr2->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
+				GameFrameworkInstance.RandomIntBetween(100, 500));
+
+			// Add it to my list of enemies
+			Everything.push_back(objectPtr1);
+			Everything.push_back(objectPtr2);
+
+			std::ifstream csvLevel("level.csv");
+
+			Everything = GameObject::ReadObjectsFromCSV(csvLevel);
+
+			csvLevel.close();
+		}
+	}
+
+	if (CurrentState == 3)
+	{
+		{
+			
 
 			GameObject* objectPtr1 = new GameObject();
 			objectPtr1->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
@@ -171,29 +195,8 @@ void GameManager::OnSpaceDown()
 			std::ifstream binaryLevel("level.bin");
 
 			Everything = GameObject::ReadObjectsFromBinary(binaryLevel);
-		}
-	}
 
-	if (CurrentState == 3)
-	{
-		{
-			// Create a new game object and give it a random location
-			GameObject* objectPtr1 = new GameObject();
-			objectPtr1->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
-				GameFrameworkInstance.RandomIntBetween(100, 500));
-			GameObject* objectPtr2 = new GameObject();
-			objectPtr2->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
-				GameFrameworkInstance.RandomIntBetween(100, 500));
-
-			// Add it to my list of enemies
-			Everything.push_back(objectPtr1);
-			Everything.push_back(objectPtr2);
-
-			std::ifstream csvLevel("level.csv");
-
-			Everything = GameObject::ReadObjectsFromCSV(csvLevel);
-
-			csvLevel.close();
+			binaryLevel.close();
 		}
 	}
 
