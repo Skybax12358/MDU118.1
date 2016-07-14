@@ -85,12 +85,6 @@ void GameManager::OnSpaceDown()
 		////////////////////////////////////////////////////////////////////////////////
 
 		// Create a new game object and give it a random location
-		GameObject* objectPtr1 = new GameObject();
-		objectPtr1->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
-			GameFrameworkInstance.RandomIntBetween(100, 500));
-		GameObject* objectPtr2 = new GameObject();
-		objectPtr2->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
-			GameFrameworkInstance.RandomIntBetween(100, 500));
 		GameObject* objectPtr3 = new RangedEnemy();
 		objectPtr3->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
 			GameFrameworkInstance.RandomIntBetween(100, 500));
@@ -99,8 +93,6 @@ void GameManager::OnSpaceDown()
 			GameFrameworkInstance.RandomIntBetween(100, 500));
 
 		// Add it to my list of enemies
-		Everything.push_back(objectPtr1);
-		Everything.push_back(objectPtr2);
 		Everything.push_back(objectPtr3);
 		Everything.push_back(objectPtr4);
 
@@ -114,8 +106,6 @@ void GameManager::OnSpaceDown()
 			// save all of the enemies
 			for (GameObject* objectPtr : Everything)
 			{
-				objectPtr->WriteToBinary(binaryLevel);
-				objectPtr2->WriteToBinary(binaryLevel);
 				objectPtr3->WriteToBinary(binaryLevel);
 				objectPtr4->WriteToBinary(binaryLevel);
 			}
@@ -132,8 +122,6 @@ void GameManager::OnSpaceDown()
 			// save all of the enemies
 			for (GameObject* objectPtr : Everything)
 			{
-				objectPtr->WriteToCSV(csvLevel);
-				objectPtr2->WriteToCSV(csvLevel);
 				objectPtr3->WriteToCSV(csvLevel);
 				objectPtr4->WriteToCSV(csvLevel);
 			}
@@ -147,10 +135,10 @@ void GameManager::OnSpaceDown()
 	{
 		{
 			// Create a new game object and give it a random location
-			GameObject* objectPtr1 = new GameObject();
+			GameObject* objectPtr1 = new RangedEnemy();
 			objectPtr1->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
 				GameFrameworkInstance.RandomIntBetween(100, 500));
-			GameObject* objectPtr2 = new GameObject();
+			GameObject* objectPtr2 = new RangedEnemy();
 			objectPtr2->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
 				GameFrameworkInstance.RandomIntBetween(100, 500));
 
