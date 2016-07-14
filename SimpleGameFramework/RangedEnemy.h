@@ -13,6 +13,8 @@ public:
 	virtual void WriteToBinary(std::ofstream& os);
 	virtual void ReadFromBinary(std::ifstream& is);
 
+	virtual void Render(Gdiplus::Graphics& canvas, const CRect& clientRect);
+
 	//basic integers
 public:
 	int startingHealth = 20; 

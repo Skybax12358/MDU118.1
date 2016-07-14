@@ -13,6 +13,22 @@ RangedEnemy::~RangedEnemy()
 {
 }
 
+void RangedEnemy::Render(Gdiplus::Graphics& canvas, const CRect& clientRect)
+{
+	// Save the current transformation of the scene
+	Gdiplus::Matrix transform;
+	canvas.GetTransform(&transform);
+
+	canvas.TranslateTransform((float)location.X, (float)location.Y);
+
+	///// ALL OF THE RENDERING CODE GOES HERE
+	GameFrameworkInstance.DrawRectangle(canvas, AABBi(Vector2i(-5, -5), Vector2i(5, 5)), true, Gdiplus::Color::Red);
+	GameFrameworkInstance.DrawRectangle(canvas, AABBi(Vector2i(-5, -5), Vector2i(5, 5)), true, Gdiplus::Color::Red);
+
+	// Restore the transformation of the scene
+	canvas.SetTransform(&transform);
+}
+
 void RangedEnemy::WriteToCSV(std::ofstream& os)
 {
 	// save the base data first

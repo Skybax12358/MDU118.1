@@ -35,7 +35,7 @@ public:
 
 	static GameObjects ReadObjectsFromBinary(std::ifstream& is);
 
-	void Render(Gdiplus::Graphics& canvas, const CRect& clientRect);
+	virtual void Render(Gdiplus::Graphics& canvas, const CRect& clientRect);
 
 	bool operator == (const GameObject& rhs) const
 	{

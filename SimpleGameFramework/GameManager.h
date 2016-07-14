@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Vector.h"
 #include <iostream>
+using namespace std;
 
 class GameManager
 {
@@ -40,7 +41,7 @@ private:
 	GameObjects Everything;
 
 public:
-	int CurrentState = 0;
+	int CurrentState;
 };
 
 /**
