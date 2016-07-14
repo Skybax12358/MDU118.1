@@ -23,7 +23,6 @@ void RangedEnemy::Render(Gdiplus::Graphics& canvas, const CRect& clientRect)
 
 	///// ALL OF THE RENDERING CODE GOES HERE
 	GameFrameworkInstance.DrawRectangle(canvas, AABBi(Vector2i(-5, -5), Vector2i(5, 5)), true, Gdiplus::Color::Red);
-	GameFrameworkInstance.DrawRectangle(canvas, AABBi(Vector2i(-5, -5), Vector2i(5, 5)), true, Gdiplus::Color::Red);
 
 	// Restore the transformation of the scene
 	canvas.SetTransform(&transform);

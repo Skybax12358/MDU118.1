@@ -24,8 +24,6 @@ const char* Image1 = "Image1";
 void GameManager::BeginPlay()
 {
 	CurrentState = 0;
-
-	cout << "Press Space To Begin" << endl;
 }
 
 void GameManager::EndPlay()
@@ -39,7 +37,36 @@ void GameManager::EndPlay()
 
 void GameManager::Update(double deltaTime)
 {
-	
+	if (CurrentState == 2)
+	{
+		{
+
+			GameObject* objectPtr1 = new GameObject();
+			objectPtr1->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
+				GameFrameworkInstance.RandomIntBetween(100, 500));
+			GameObject* objectPtr2 = new GameObject();
+			objectPtr2->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
+				GameFrameworkInstance.RandomIntBetween(100, 500));
+			GameObject* objectPtr3 = new RangedEnemy();
+			objectPtr3->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
+				GameFrameworkInstance.RandomIntBetween(100, 500));
+			GameObject* objectPtr4 = new RangedEnemy();
+			objectPtr4->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
+				GameFrameworkInstance.RandomIntBetween(100, 500));
+
+			// Add it to my list of enemies
+			Everything.push_back(objectPtr1);
+			Everything.push_back(objectPtr2);
+			Everything.push_back(objectPtr3);
+			Everything.push_back(objectPtr4);
+
+			std::ifstream csvLevel("level.bin");
+
+			std::ifstream binaryLevel("level.bin");
+
+			Everything = GameObject::ReadObjectsFromBinary(binaryLevel);
+		}
+	}
 }
 
 void GameManager::Render(Gdiplus::Graphics& canvas, const CRect& clientRect)
@@ -66,32 +93,96 @@ void GameManager::Render(Gdiplus::Graphics& canvas, const CRect& clientRect)
 
 void GameManager::OnSpaceDown()
 {
+	CurrentState++;
+	std::cout << CurrentState << endl;
+
 	// free up all of the game objects
 	for (GameObject* objectPtr : Everything)
 	{
 		delete objectPtr;
 	}
 
-	CurrentState++;
-
+	if (CurrentState == 1)
 	{
-		if (CurrentState == 1)
+
+		////////////////////////////////////////////////////////////////////////////////
+		// Begin example code
+
+		// Load the image file Untitled.png from the Images folder. Give it the unique name of Image1
+		GameFrameworkInstance.LoadImageResource(AppConfigInstance.GetResourcePath("Images/Untitled.png"), Image1);
+
+		// End example code
+		////////////////////////////////////////////////////////////////////////////////
+
+		// Create a new game object and give it a random location
+		GameObject* objectPtr1 = new GameObject();
+		objectPtr1->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
+			GameFrameworkInstance.RandomIntBetween(100, 500));
+		GameObject* objectPtr2 = new GameObject();
+		objectPtr2->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
+			GameFrameworkInstance.RandomIntBetween(100, 500));
+		GameObject* objectPtr3 = new RangedEnemy();
+		objectPtr3->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
+			GameFrameworkInstance.RandomIntBetween(100, 500));
+		GameObject* objectPtr4 = new RangedEnemy();
+		objectPtr4->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
+			GameFrameworkInstance.RandomIntBetween(100, 500));
+
+		// Add it to my list of enemies
+		Everything.push_back(objectPtr1);
+		Everything.push_back(objectPtr2);
+		Everything.push_back(objectPtr3);
+		Everything.push_back(objectPtr4);
+
 		{
+			std::ofstream binaryLevel("level.bin");
 
-			////////////////////////////////////////////////////////////////////////////////
-			// Begin example code
+			// write out the number of enemies
+			size_t numEnemies = Everything.size();
+			binaryLevel.write(reinterpret_cast<const char*>(&numEnemies), sizeof(numEnemies));
 
-			// Load the image file Untitled.png from the Images folder. Give it the unique name of Image1
-			GameFrameworkInstance.LoadImageResource(AppConfigInstance.GetResourcePath("Images/Untitled.png"), Image1);
+			// save all of the enemies
+			for (GameObject* objectPtr : Everything)
+			{
+				objectPtr->WriteToBinary(binaryLevel);
+				objectPtr2->WriteToBinary(binaryLevel);
+				objectPtr3->WriteToBinary(binaryLevel);
+				objectPtr4->WriteToBinary(binaryLevel);
+			}
 
-			// End example code
-			////////////////////////////////////////////////////////////////////////////////
+			binaryLevel.close();
+		}
 
+		{
+			std::ofstream csvLevel("level.csv");
+
+			// write out the number of enemies
+			csvLevel << Everything.size() << std::endl;
+
+			// save all of the enemies
+			for (GameObject* objectPtr : Everything)
+			{
+				objectPtr->WriteToCSV(csvLevel);
+				objectPtr2->WriteToBinary(csvLevel);
+				objectPtr3->WriteToBinary(csvLevel);
+				objectPtr4->WriteToBinary(csvLevel);
+			}
+
+			csvLevel.close();
+		}
+
+	}
+
+	
+
+	if (CurrentState == 3)
+	{
+		{
 			// Create a new game object and give it a random location
 			GameObject* objectPtr1 = new GameObject();
 			objectPtr1->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
 				GameFrameworkInstance.RandomIntBetween(100, 500));
-			GameObject* objectPtr2 = new RangedEnemy();
+			GameObject* objectPtr2 = new GameObject();
 			objectPtr2->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
 				GameFrameworkInstance.RandomIntBetween(100, 500));
 
@@ -99,105 +190,15 @@ void GameManager::OnSpaceDown()
 			Everything.push_back(objectPtr1);
 			Everything.push_back(objectPtr2);
 
-			{
-				std::ofstream binaryLevel("level.bin");
+			std::ifstream csvLevel("level.csv");
 
-				// write out the number of enemies
-				size_t numEnemies = Everything.size();
-				binaryLevel.write(reinterpret_cast<const char*>(&numEnemies), sizeof(numEnemies));
+			Everything = GameObject::ReadObjectsFromCSV(csvLevel);
 
-				// save all of the enemies
-				for (GameObject* objectPtr : Everything)
-				{
-					objectPtr->WriteToBinary(binaryLevel);
-				}
-
-				binaryLevel.close();
-			}
-
-			{
-				std::ofstream csvLevel("level.csv");
-
-				// write out the number of enemies
-				csvLevel << Everything.size() << std::endl;
-
-				// save all of the enemies
-				for (GameObject* objectPtr : Everything)
-				{
-					objectPtr->WriteToCSV(csvLevel);
-				}
-
-				csvLevel.close();
-			}
-
+			csvLevel.close();
 		}
-
-		if (CurrentState == 2)
-		{
-			{
-				////////////////////////////////////////////////////////////////////////////////
-				// Begin example code
-
-				// Load the image file Untitled.png from the Images folder. Give it the unique name of Image1
-				GameFrameworkInstance.LoadImageResource(AppConfigInstance.GetResourcePath("Images/Untitled.png"), Image1);
-
-				// End example code
-				////////////////////////////////////////////////////////////////////////////////
-
-				// Create a new game object and give it a random location
-				GameObject* objectPtr1 = new GameObject();
-				objectPtr1->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
-					GameFrameworkInstance.RandomIntBetween(100, 500));
-				GameObject* objectPtr2 = new GameObject();
-				objectPtr2->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
-					GameFrameworkInstance.RandomIntBetween(100, 500));
-
-				// Add it to my list of enemies
-				Everything.push_back(objectPtr1);
-				Everything.push_back(objectPtr2);
-
-				std::ifstream binaryLevel("level.bin");
-
-				Everything = GameObject::ReadObjectsFromBinary(binaryLevel);
-
-				binaryLevel.close();
-			}
-		}
-
-		if (CurrentState == 3)
-		{
-			{
-				////////////////////////////////////////////////////////////////////////////////
-				// Begin example code
-
-				// Load the image file Untitled.png from the Images folder. Give it the unique name of Image1
-				GameFrameworkInstance.LoadImageResource(AppConfigInstance.GetResourcePath("Images/Untitled.png"), Image1);
-
-				// End example code
-				////////////////////////////////////////////////////////////////////////////////
-
-				// Create a new game object and give it a random location
-				GameObject* objectPtr1 = new GameObject();
-				objectPtr1->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
-					GameFrameworkInstance.RandomIntBetween(100, 500));
-				GameObject* objectPtr2 = new GameObject();
-				objectPtr2->location = Vector2i(GameFrameworkInstance.RandomIntBetween(100, 700),
-					GameFrameworkInstance.RandomIntBetween(100, 500));
-
-				// Add it to my list of enemies
-				Everything.push_back(objectPtr1);
-				Everything.push_back(objectPtr2);
-
-				std::ifstream csvLevel("level.csv");
-
-				Everything = GameObject::ReadObjectsFromCSV(csvLevel);
-
-				csvLevel.close();
-			}
-		}
-
-		if (CurrentState >= 4)
-			CurrentState = 0;
 	}
+
+	if (CurrentState >= 4)
+		CurrentState = 0;
 }
 

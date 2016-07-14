@@ -90,16 +90,12 @@ GameObjects GameObject::ReadObjectsFromCSV(std::ifstream& is)
 		{
 		case egotBase:
 			objectPtr = new GameObject();
+
+		case egotRangedEnemy:
+			objectPtr = new RangedEnemy();
 			break;
 
 		}
-
-		// tell the game object to load it's own damn data
-		objectPtr->ReadFromCSV(is);
-
-
-		// add the object to my list
-		objects.push_back(objectPtr);
 	}
 
 	return objects;
@@ -175,10 +171,10 @@ GameObjects GameObject::ReadObjectsFromBinary(std::ifstream& is)
 		{
 		case egotBase:
 			objectPtr = new GameObject();
-			break;
 
 		case egotRangedEnemy:
 			objectPtr = new RangedEnemy();
+
 
 		}
 
